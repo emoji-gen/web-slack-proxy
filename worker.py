@@ -10,6 +10,18 @@ import logzero
 from logzero import logger
 
 
+def main():
+    loop = asyncio.get_event_loop()
+    loop.create_task(start())
+    loop.run_forever()
+
+    env = os.getenv('PYTHON_ENV')
+    if env == 'production':
+        logzero.loglevel(logging.ERROR)
+    else:
+        logzero.loglevel(logging.DEBUG)
+
+
 async def start():
     while True:
         try:
@@ -32,18 +44,9 @@ async def start():
 
 async def consume(channel, body, envelope, properties):
     logger.info('received : %s', body)
-    await asyncio.sleep(1)
     await channel.basic_client_ack(delivery_tag=envelope.delivery_tag)
+    await asyncio.sleep(1)
 
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.create_task(start())
-    loop.run_forever()
-
-    env = os.getenv('PYTHON_ENV')
-    if env == 'production':
-        logzero.loglevel(logging.ERROR)
-    else:
-        logzero.loglevel(logging.DEBUG)
-
+    main()
