@@ -1,29 +1,28 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
+import sys
+import os
+from pathlib import Path
+
+src_path = str(Path(__file__).resolve().parent.joinpath('src'))
+sys.path.append(src_path)
+
+# ------------------------------------------------------------------------------
+
 import asyncio
-import aioamqp
 
-async def connect():
-    try:
-        transport, protocol = await aioamqp.connect()  # use default parameters
-    except aioamqp.AmqpClosedConnection:
-        print("closed connections")
-        return
+from aiohttp.web import run_app
 
-    print("connected !")
-    await asyncio.sleep(1)
-
-    channel = await protocol.channel()
-    await channel.publish('Hello', '', 'messages')
-    await channel.publish('Hello', '', 'messages')
-    await channel.publish('Hello', '', 'messages')
-    await channel.publish('Hello', '', 'messages')
-    await channel.publish('Hello', '', 'messages')
-
-    print("close connection")
-    await protocol.close()
-    transport.close()
+from emoji_slack_proxy.app.web import provide_app
+from emoji_slack_proxy.app.amqp import connect
 
 
-asyncio.get_event_loop().run_until_complete(connect())
+loop = asyncio.get_event_loop()
+loop.create_task(connect())
+
+app = provide_app()
+
+if __name__ == '__main__':
+    run_app(app, host='0.0.0.0', port=5002)
+
