@@ -16,6 +16,10 @@ async def connect():
 
     channel = await protocol.channel()
     await channel.publish('Hello', '', 'messages')
+    await channel.publish('Hello', '', 'messages')
+    await channel.publish('Hello', '', 'messages')
+    await channel.publish('Hello', '', 'messages')
+    await channel.publish('Hello', '', 'messages')
 
     print("close connection")
     await protocol.close()
