@@ -11,16 +11,27 @@ sys.path.append(src_path)
 # ------------------------------------------------------------------------------
 
 import asyncio
+import logging
 
+import logzero
 from aiohttp.web import run_app
 
 from emoji_slack_proxy.app.web import provide_app
 from emoji_slack_proxy.app.amqp import connect
 
 
+# Connect AMQP server
 loop = asyncio.get_event_loop()
 loop.create_task(connect())
 
+# Setup logger
+env = os.getenv('PYTHON_ENV')
+if env == 'production':
+    logzero.loglevel(logging.ERROR)
+else:
+    logzero.loglevel(logging.DEBUG)
+
+# Run aiohttp server
 app = provide_app()
 
 if __name__ == '__main__':

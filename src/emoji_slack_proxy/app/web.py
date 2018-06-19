@@ -2,6 +2,7 @@
 
 
 from aiohttp.web import Application, Response
+from logzero import logger
 
 from emoji_slack_proxy.app.amqp import publish
 
@@ -26,6 +27,14 @@ async def healthcheck(request):
 
 
 async def post(request):
+    token = request.match_info['token']
+    query_string = request.query_string
+    body = await request.read()
+
+    logger.debug(
+        'received : token = %s, query_string = %s, body = %s',
+        token, query_string, body)
+
     return Response(
         body='OK',
         headers={
@@ -40,5 +49,6 @@ async def post(request):
 def provide_app():
     app = Application()
     app.router.add_get('/healthcheck', healthcheck)
-    app.router.add_get('/{token:.*}/post', healthcheck)
+    app.router.add_get('/{token:.*}/post', post)
+    app.router.add_post('/{token:.*}/post', post)
     return app
