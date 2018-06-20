@@ -48,7 +48,7 @@ async def publish(message):
         return
 
     await _channel.publish(message, '', 'messages')
-    logger.debug('published : message = %s', message)
+    logger.debug('published :  %s', message)
 
 
 async def publish_queued():

@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+import json
 
 from aiohttp.web import Application, Response
 from logzero import logger
@@ -31,11 +32,11 @@ async def post(request):
     query_string = request.query_string
     body = await request.read()
 
-    logger.debug(
-        'received : token = %s, query_string = %s, body = %s',
-        token, query_string, body)
-
-    await publish('Hello')
+    message = json.dumps({
+        'query_string': query_string,
+        'body': body.decode('utf-8'),
+    })
+    await publish(message.encode('utf-8'))
 
     return Response(
         body='OK',
