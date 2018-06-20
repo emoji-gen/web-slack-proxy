@@ -35,6 +35,8 @@ async def post(request):
         'received : token = %s, query_string = %s, body = %s',
         token, query_string, body)
 
+    await publish('Hello')
+
     return Response(
         body='OK',
         headers={
@@ -49,6 +51,5 @@ async def post(request):
 def provide_app():
     app = Application()
     app.router.add_get('/healthcheck', healthcheck)
-    app.router.add_get('/{token:.*}/post', post)
-    app.router.add_post('/{token:.*}/post', post)
+    app.router.add_post('/{token:.*}', post)
     return app

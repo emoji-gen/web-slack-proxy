@@ -12,6 +12,7 @@
 ## Requirements
 
 - Python `$(cat .python-version)`
+- RabbitMQ
 
 ## Libraries
 
