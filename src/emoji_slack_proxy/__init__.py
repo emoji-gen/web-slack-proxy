@@ -3,7 +3,7 @@
 from urllib.parse import urlparse
 
 def parse_amqp_url(url):
-    parts = urlparse(amqp_url)
+    parts = urlparse(url)
     return {
         'host': parts.hostname,
         'port': parts.port,
