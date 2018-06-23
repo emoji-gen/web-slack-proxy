@@ -16,12 +16,12 @@ async def connect():
             transport, protocol = await aioamqp.connect()
         except aioamqp.AmqpClosedConnection as e:
             logger.error('closed AMQP connections : %s', e)
-            disconnected()
+            await disconnected()
             await asyncio.sleep(3)
             continue
         except OSError as e:
             logger.error('OSError : %s', e)
-            disconnected()
+            await disconnected()
             await asyncio.sleep(3)
             continue
 
