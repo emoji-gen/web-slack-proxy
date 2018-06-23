@@ -44,7 +44,7 @@ $ pytest
 
 ```
 $ heroku create
-$ heroku buildpacks:set https://github.com/heroku/heroku-buildpack-multi.git
+$ heroku addons:create rabbitmq-bigwig:pipkin
 $ heroku config:set ROOT_LOG_LEVEL=INFO
 $ git push heroku master
 ```
