@@ -28,6 +28,8 @@ else:
     logzero.loglevel(logging.DEBUG)
 
 
+print(os.getenv('RABBITMQ_BIGWIG_TX_URL'))
+
 # Connect AMQP server
 loop = asyncio.get_event_loop()
 loop.create_task(connect())
