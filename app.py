@@ -16,6 +16,7 @@ import logging
 import logzero
 from aiohttp.web import run_app
 
+from emoji_slack_proxy import parse_amqp_url
 from emoji_slack_proxy.app.web import provide_app
 from emoji_slack_proxy.app.amqp import connect
 
@@ -28,11 +29,14 @@ else:
     logzero.loglevel(logging.DEBUG)
 
 
-print(os.getenv('RABBITMQ_BIGWIG_TX_URL'))
-
 # Connect AMQP server
+if 'RABBITMQ_BIGWIG_TX_URL' in os.environ:
+    amqp_kwargs = parse_amqp_url(os.getenv('RABBITMQ_BIGWIG_TX_URL'))
+else:
+    amqp_kwargs ={}
+
 loop = asyncio.get_event_loop()
-loop.create_task(connect())
+loop.create_task(connect(**amqp_kwargs))
 
 
 # Run aiohttp server

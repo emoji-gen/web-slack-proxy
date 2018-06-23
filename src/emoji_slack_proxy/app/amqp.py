@@ -10,10 +10,11 @@ _channel = None
 _messages = []
 
 
-async def connect():
+async def connect(**kwargs):
     while True:
         try:
-            transport, protocol = await aioamqp.connect()
+            logger.debug('connecting AMQP server : %s', kwargs)
+            transport, protocol = await aioamqp.connect(**kwargs)
         except aioamqp.AmqpClosedConnection as e:
             logger.error('closed AMQP connections : %s', e)
             await disconnected()
