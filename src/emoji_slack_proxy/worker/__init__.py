@@ -47,6 +47,6 @@ async def notify(payload):
     async with aiohttp.ClientSession() as session:
         data = message['body'].encode('utf-8')
         headers = {
-            'Content-Type': 'application/json; charset=utf-8',
+            'Content-Type': message['content_type'],
         }
         await session.post(message['hook_url'], data=data, headers=headers)
