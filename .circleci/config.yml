@@ -29,6 +29,7 @@ jobs:
           name: Deploy Master to Heroku
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              ./.circleci/setup-config.sh
               ./.circleci/setup-retry.sh
               ./.circleci/setup-heroku.sh
               retry -- git push -f heroku master
