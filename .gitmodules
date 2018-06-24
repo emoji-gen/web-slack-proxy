@@ -1,0 +1,3 @@
+[submodule "externals/conf"]
+	path = externals/conf
+	url = git@github.com:pine/eg-conf.git
