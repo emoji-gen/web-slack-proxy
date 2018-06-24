@@ -16,6 +16,7 @@ import os
 
 import logzero
 
+from emoji_slack_proxy import parse_amqp_url
 from emoji_slack_proxy.worker import connect
 
 
