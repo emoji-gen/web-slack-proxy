@@ -3,3 +3,6 @@ __pycache__/
 
 # virtualenv
 venv
+
+# project
+/config/production.yml
