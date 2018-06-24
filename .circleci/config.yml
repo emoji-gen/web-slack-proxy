@@ -7,7 +7,14 @@ jobs:
     environment:
       HEROKU_APP: eg-web-slack-proxy
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "a0:2d:46:4c:76:a1:b0:97:5f:1f:d4:9b:97:f6:21:89"
       - checkout
+      - run:
+          name: Checkout submodule
+          command: |
+            git submodule update --init
       - restore_cache:
           key: emoji-gen/web-slack-proxy/{{ arch }}/{{ checksum "requirements.txt" }}
       - run:
