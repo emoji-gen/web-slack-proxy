@@ -3,11 +3,14 @@
 import json
 
 from aiohttp.web import Application, Response
+from aiohttp.web_exceptions import HTTPBadRequest
 from logzero import logger
 
 from emoji_slack_proxy.app.amqp import publish
+from emoji_slack_proxy.config import load_config
 
 
+config = load_config()
 security_headers = {
     'X-XSS-Protection': '1; mode=block',
     'X-Frame-Options': 'DENY',
@@ -28,13 +31,22 @@ async def healthcheck(request):
 
 
 async def post(request):
+    # Find target WebHook URL
     token = request.match_info['token']
+    name = request.match_info['name']
+    hook = _find_hook(token, name)
+
+    if not hook:
+        return HTTPBadRequest()
+
+    # Publish message
     query_string = request.query_string
     body = await request.read()
 
     message = json.dumps({
         'query_string': query_string,
         'body': body.decode('utf-8'),
+        'hook': hook,
     })
     await publish(message.encode('utf-8'))
 
@@ -52,5 +64,13 @@ async def post(request):
 def provide_app():
     app = Application()
     app.router.add_get('/healthcheck', healthcheck)
-    app.router.add_post('/{token:.*}', post)
+    app.router.add_post('/{token:.*}/{name:.*}', post)
     return app
+
+
+def _find_hook(token, name):
+    for hook in config['hooks']:
+        if hook['token'] == token and name == hook['name']:
+            return hook
+
+

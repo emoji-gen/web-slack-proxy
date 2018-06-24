@@ -5,4 +5,5 @@ __pycache__/
 venv
 
 # project
+/config/local.yml
 /config/production.yml
