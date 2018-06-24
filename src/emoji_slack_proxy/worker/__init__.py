@@ -40,4 +40,4 @@ async def consume(channel, body, envelope, properties):
 
 
 async def notify(body):
-    pass
+    print(body)
