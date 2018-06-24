@@ -6,10 +6,10 @@ import aioamqp
 from logzero import logger
 
 
-async def connect():
+async def connect(**kwargs):
     while True:
         try:
-            transport, protocol = await aioamqp.connect()
+            transport, protocol = await aioamqp.connect(**kwargs)
         except aioamqp.AmqpClosedConnection as e:
             logger.error('closed AMQP connections : %s', e)
             await asyncio.sleep(3)
