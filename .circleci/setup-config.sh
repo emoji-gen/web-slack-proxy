@@ -6,6 +6,9 @@ git config --global user.email 'ultimate.emoji.gen@gmail.com'
 git config --global user.name 'Emoji Generator'
 
 # Copy app config
+sed -i '' -e '/^\/config\/production\.yml$/d' .gitignore
+git add .gitignore
+
 cp externals/conf/app/web-slack-proxy.yml config/production.yml
 git add config/production.yml
 git commit -m 'fix(config): add production conf'
