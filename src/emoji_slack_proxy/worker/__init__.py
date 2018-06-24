@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
 
 import asyncio
+import json
 
 import aioamqp
+import aiohttp
 from logzero import logger
 
 
@@ -32,12 +34,19 @@ async def connected(protocol):
     await channel.basic_consume(consume, queue_name='messages')
 
 
-async def consume(channel, body, envelope, properties):
-    logger.info('received : %s', body)
-    await notify(body)
+async def consume(channel, payload, envelope, properties):
+    logger.info('received : %s', payload)
+    await notify(payload)
     await channel.basic_client_ack(delivery_tag=envelope.delivery_tag)
     await asyncio.sleep(1)
 
 
-async def notify(body):
-    print(body)
+async def notify(payload):
+    message = json.loads(payload)
+
+    async with aiohttp.ClientSession() as session:
+        data = message['body'].encode('utf-8')
+        headers = {
+            'Content-Type': 'application/json; charset=utf-8',
+        }
+        await session.post(message['hook_url'], data=data, headers=headers)
