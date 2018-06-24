@@ -9,6 +9,7 @@ from logzero import logger
 async def connect(**kwargs):
     while True:
         try:
+            logger.debug('connecting AMQP server : %s', kwargs)
             transport, protocol = await aioamqp.connect(**kwargs)
         except aioamqp.AmqpClosedConnection as e:
             logger.error('closed AMQP connections : %s', e)
