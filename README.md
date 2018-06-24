@@ -46,6 +46,7 @@ $ pytest
 $ heroku create
 $ heroku addons:create rabbitmq-bigwig:pipkin
 $ heroku config:set ROOT_LOG_LEVEL=INFO
+$ heroku config:set PYTHON_ENV=production
 $ git push heroku master
 ```
 
