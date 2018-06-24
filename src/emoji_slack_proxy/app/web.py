@@ -41,6 +41,8 @@ async def post(request):
 
     # Publish message
     body = await request.read()
+    content_type = request.headers['Content-Type']
+    print(content_type)
 
     message = json.dumps({
         'body': body.decode('utf-8'),
