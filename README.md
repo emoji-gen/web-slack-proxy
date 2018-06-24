@@ -24,7 +24,9 @@
 $ python -m venv venv
 $ . venv/bin/activate
 $ pip install -r requirements.txt
-$ python app.py
+
+$ python app.py    # for web server
+$ python worker.py # for asynchronous worker
 ```
 
 ## Test
