@@ -4,6 +4,9 @@ __pycache__/
 # virtualenv
 venv
 
+# pytest
+.pytest_cache/
+
 # project
 /config/local.yml
 /config/production.yml
