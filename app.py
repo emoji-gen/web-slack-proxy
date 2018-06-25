@@ -33,7 +33,7 @@ else:
 if 'RABBITMQ_BIGWIG_TX_URL' in os.environ:
     amqp_kwargs = parse_amqp_url(os.getenv('RABBITMQ_BIGWIG_TX_URL'))
 else:
-    amqp_kwargs ={}
+    amqp_kwargs = {}
 
 loop = asyncio.get_event_loop()
 loop.create_task(connect(**amqp_kwargs))
