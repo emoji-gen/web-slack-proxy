@@ -21,13 +21,13 @@ jobs:
           name: Install dependencies
           command: |
             pip install -r requirements.txt
-            # pip install -r requirements-dev.txt
+            pip install -r requirements-dev.txt
       - run:
           name: Test
           command: |
             python -m py_compile app.py
             python -m py_compile worker.py
-            # python -m pytest
+            python -m pytest
       - save_cache:
           key: emoji-gen/web-slack-proxy/{{ arch }}/{{ checksum "requirements.txt" }}
           paths:
