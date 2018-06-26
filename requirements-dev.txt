@@ -11,6 +11,7 @@ pluggy==0.6.0
 py==1.5.3
 pytest==3.6.2
 pytest-aiohttp==0.3.0
+pytest-mock==1.10.0
 pytest-pythonpath==0.7.2
 six==1.11.0
 yarl==1.2.6
