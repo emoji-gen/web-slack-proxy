@@ -1,2 +1,1 @@
-web: gunicorn app:app --config config/gunicorn.conf
-worker: python worker.py
+web: parallel ::: "gunicorn app:app --config config/gunicorn.conf" "python worker.py"
