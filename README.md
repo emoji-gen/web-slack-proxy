@@ -49,6 +49,7 @@ $ heroku create
 $ heroku addons:create rabbitmq-bigwig:pipkin
 $ heroku config:set ROOT_LOG_LEVEL=INFO
 $ heroku config:set PYTHON_ENV=production
+$ heroku buildpacks:add -i 1 https://github.com/mars/heroku-buildpack-gnu-parallel -a appname
 $ git push heroku master
 ```
 
